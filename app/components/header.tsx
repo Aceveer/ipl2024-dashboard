@@ -5,7 +5,7 @@ const Header = () => {
     <header className="bg-[#9BCBD7] text-black py-4 px-8 rounded-3xl mt-4 shadow-md mx-4 md:mx-16">
       {/* Desktop/Tablet Display */}
       <nav className="hidden md:flex justify-between items-center">
-        <a href="#matches" className="text-lg font-semibold hover:underline hover:text-[#ffffff]">
+        <a href="/matches" className="text-lg font-semibold hover:underline hover:text-[#ffffff]">
           Matches
         </a>
         <a href="#players" className="text-lg font-semibold hover:underline hover:text-[#ffffff]">
@@ -25,7 +25,7 @@ const Header = () => {
       {/* Mobile Display */}
       <nav className="md:hidden flex justify-between overflow-x-auto space-x-4 items-center py-2">
 
-        <a href="#matches" className="flex-shrink-0 text-sm font-semibold hover:underline hover:text-[#ffffff] px-4">
+        <a href="/matches" className="flex-shrink-0 text-sm font-semibold hover:underline hover:text-[#ffffff] px-4">
           Matches
         </a>
         <a href="#players" className="flex-shrink-0 text-sm font-semibold hover:underline hover:text-[#ffffff] px-4">

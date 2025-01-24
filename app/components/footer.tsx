@@ -173,7 +173,7 @@ const Footer = () => {
                         <img
                             src={teams[0].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[0].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[0].team}</a>
                     </div>
@@ -181,7 +181,7 @@ const Footer = () => {
                         <img
                             src={teams[1].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[1].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[1].team}</a>
                     </div>
@@ -189,7 +189,7 @@ const Footer = () => {
                         <img
                             src={teams[2].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[2].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[2].team}</a>
                     </div>
@@ -197,7 +197,7 @@ const Footer = () => {
                         <img
                             src={teams[3].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[3].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[3].team}</a>
                     </div>
@@ -205,7 +205,7 @@ const Footer = () => {
                         <img
                             src={teams[4].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[4].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[4].team}</a>
                     </div>
@@ -219,7 +219,7 @@ const Footer = () => {
                         <img
                             src={teams[5].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[5].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[5].team}</a>
                     </div>
@@ -227,7 +227,7 @@ const Footer = () => {
                         <img
                             src={teams[6].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[6].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[6].team}</a>
                     </div>
@@ -235,7 +235,7 @@ const Footer = () => {
                         <img
                             src={teams[7].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[7].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[7].team}</a>
                     </div>
@@ -243,7 +243,7 @@ const Footer = () => {
                         <img
                             src={teams[8].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[8].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[8].team}</a>
                     </div>
@@ -251,7 +251,7 @@ const Footer = () => {
                         <img
                             src={teams[9].path}
                             alt={"logo"}
-                            className="w-8 h-8 mr-2"
+                            className="w-4 h-4 mr-2"
                         />
                         <a href={teams[9].link} target="_blank" className="hover:text-white py-1 px-1 hover:underline font-semibold text-sm">{teams[9].team}</a>
                     </div>
