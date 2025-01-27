@@ -1,6 +1,7 @@
 import React from "react";
 import formatDateWithDay from "../commonFunctions/matchCardFunctions";
 import convertOvers from "../commonFunctions/allFunctions";
+import { useRouter } from "next/navigation";
 
 interface MatchCardProps {
     matchNo: number;
@@ -42,6 +43,13 @@ interface MatchCardProps {
     playerOfTheMatch,
   }) => {
 
+
+    const router = useRouter(); // Initialize the router
+
+    const handleRedirect = () => {
+      sessionStorage.setItem("matchNo",matchNo.toString())
+      router.push(`/matches/analysis`); // Redirect to the analysis page for the match
+    };
 
   return (
     <div className="flex flex-col bg-[#9BCBD7] h-auto px-6 m-16 rounded-2xl py-4 flex-wrap">
@@ -93,17 +101,17 @@ interface MatchCardProps {
             </div>
 
             {/* Middle Section: Match Details */}
-            <div className="flex flex-col justify-evenly items-center border-black border-b-4 border-r-4 w-full py-4 px-4">
+            <div className="flex flex-col justify-evenly items-center border-black border-b-4 w-full py-4 px-4">
                 <div className="text-lg font-bold">Toss: {tossWinner} opt to {tossDecision}</div>
                 <div className="text-lg font-bold">Result: {winningTeam} won by {margin} {wonBy}</div>
                 <div className="text-lg font-bold">Man Of The Match: {playerOfTheMatch}</div>
             </div>
 
-        {/* Right Section: Analysis */}
-            <div className="flex flex-col justify-between items-center border-black border-b-4 w-full py-4 px-4">
-                <div className="grid grid-cols-2">
+            {/* Right Section: Analysis */}
+            <div className="flex flex-col justify-evenly border-black border-b-4 w-full py-4 px-4">
+                <div className="grid grid-cols-4">
                     {/* Scorecard */}
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center cursor-pointer hover:bg-white hover:rounded-xl" onClick={handleRedirect}>
                         <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-16 w-16 text-black"
@@ -134,7 +142,7 @@ interface MatchCardProps {
                         <circle cx="20" cy="6" r="1.5" fill="currentColor" />
                         </svg>
                         <div className="text-center text-lg font-medium mt-2">
-                        Fall of Wickets
+                        Wickets
                         </div>
                     </div>
 
@@ -152,7 +160,7 @@ interface MatchCardProps {
                         <path d="M8 12a4 4 0 018 0M12 8a4 4 0 010 8" />
                         </svg>
                         <div className="text-center text-lg font-medium mt-2">
-                        Overs Analysis
+                        Overs
                         </div>
                     </div>
 

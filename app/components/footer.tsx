@@ -5,59 +5,59 @@ const Footer = () => {
         {
             "team": "Chennai Super Kings",
             "link" : "https://www.chennaisuperkings.com/",
-            "path" : "./teamLogo/CSK.png"
+            "path" : "/teamLogo/CSK.png"
         },
         {
             "team": "Mumbai Indians",
             "link" : "https://www.mumbaiindians.com/",
-            "path" : "./teamLogo/MI.png"
+            "path" : "/teamLogo/MI.png"
         },
         {
             "team": "Delhi Capitals",
             "link" : "https://www.delhicapitals.in/",
-            "path" : "./teamLogo/DC.png"
+            "path" : "/teamLogo/DC.png"
         },
         {
             "team": "Punjab Kings",
             "link" : "https://www.punjabkingsipl.in/",
-            "path" : "./teamLogo/PK.png"
+            "path" : "/teamLogo/PBKS.png"
         },
         {
             "team": "Gujrat Titans",
             "link" : "https://www.gujarattitansipl.com/",
-            "path" : "./teamLogo/GT.png"
+            "path" : "/teamLogo/GT.png"
         },
         {
             "team": "Rajasthan Royals",
             "link" : "https://www.rajasthanroyals.com/",
-            "path" : "./teamLogo/RR.png"
+            "path" : "/teamLogo/RR.png"
         },
         {
             "team": "Kolkata Knight Riders",
             "link" : "https://www.kkr.in/",
-            "path" : "./teamLogo/KKR.png"
+            "path" : "/teamLogo/KKR.png"
         },
         {
             "team": "Royal Challengers Bangalore",
             "link" : "https://www.royalchallengers.com/",
-            "path" : "./teamLogo/RCB.png"
+            "path" : "/teamLogo/RCB.png"
         },
         {
             "team": "Lucknow Super Giants",
             "link" : "https://www.lucknowsupergiants.in/",
-            "path" : "./teamLogo/LSG.png"
+            "path" : "/teamLogo/LSG.png"
         },
         {
             "team": "Sunrisers Hyderabad",
             "link" : "https://www.sunrisershyderabad.in/",
-            "path" : "./teamLogo/SRH.png"
+            "path" : "/teamLogo/SRH.png"
         }
       ];
     return(
-    <footer className="bg-[#9BCBD7] ">
+    <footer className="bg-[#92b986]">
         {/* Desktop Display */}
         <div className="hidden md:flex flex-col">
-            <p className="text-3xl py-4 px-8 rounded-3xl font-bold">Visit Teams Website</p>
+            <p className="text-xl py-4 px-8 rounded-xl font-bold">Visit Teams Website</p>
             <div className="flex flex-row justify-evenly px-8">
 
                 {/* First Column */}
