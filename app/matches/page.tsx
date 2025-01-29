@@ -33,7 +33,7 @@ export default function Home() {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/matches"); // Replace with your API URL
+        const response = await fetch(`http://127.0.0.1:5000/matches`); // Replace with your API URL
         const data = await response.json();
         setMatches(data); // Assuming the response is an array of matches
         console.log(matches);

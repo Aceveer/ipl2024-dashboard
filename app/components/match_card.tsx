@@ -77,8 +77,10 @@ interface MatchCardProps {
                 {/* Team 1 (Top) */}
                 <div className="flex flex-row items-center">
                 <Image
-                    src={`./teamLogo/${team1}.png`}
+                    src={`/teamLogo/${team1}.png`}
                     alt="KKR"
+                    height={24}
+                    width={24}
                     className="bg-white h-24 w-24 py-2 rounded-full border-4 border-black object-contain"
                 />
                 <div className="flex flex-col text-center p-2 text-lg font-semibold">
@@ -90,8 +92,10 @@ interface MatchCardProps {
                 {/* Team 2 (Bottom) */}
                 <div className="flex flex-row items-center">
                 <Image
-                    src={`./teamLogo/${team2}.png`}
+                    src={`/teamLogo/${team2}.png`}
                     alt="SRH"
+                    height={24}
+                    width={24}
                     className="bg-white h-24 w-24 py-2 rounded-full border-4 border-black object-contain"
                 />
                 <div className="flex flex-col text-center p-2 text-lg font-semibold">
