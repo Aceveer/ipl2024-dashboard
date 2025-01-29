@@ -5,6 +5,7 @@ export default function Home() {
   return (
 <div className="flex flex-col min-h-screen">
       <Header />
+      
       <div className="flex-1">
         {/* <div>Space for BreadCrumbs</div>   */}
         <div className="bg-[#9BCBD7] rounded-3xl mx-16 text-center mt-32">
@@ -115,6 +116,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

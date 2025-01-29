@@ -2,6 +2,7 @@ import React from "react";
 import formatDateWithDay from "../commonFunctions/matchCardFunctions";
 import convertOvers from "../commonFunctions/allFunctions";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface MatchCardProps {
     matchNo: number;
@@ -75,7 +76,7 @@ interface MatchCardProps {
             <div className="flex flex-col justify-evenly border-black border-b-4 w-1/2 py-2 pr-4">
                 {/* Team 1 (Top) */}
                 <div className="flex flex-row items-center">
-                <img
+                <Image
                     src={`./teamLogo/${team1}.png`}
                     alt="KKR"
                     className="bg-white h-24 w-24 py-2 rounded-full border-4 border-black object-contain"
@@ -88,7 +89,7 @@ interface MatchCardProps {
 
                 {/* Team 2 (Bottom) */}
                 <div className="flex flex-row items-center">
-                <img
+                <Image
                     src={`./teamLogo/${team2}.png`}
                     alt="SRH"
                     className="bg-white h-24 w-24 py-2 rounded-full border-4 border-black object-contain"

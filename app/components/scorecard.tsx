@@ -29,6 +29,9 @@ interface BowlerPerformance {
 interface Innings {
   batting: PlayerPerformance[];
   bowling: BowlerPerformance[];
+  score: number;
+  team: string;
+  wickets: number;
 }
 
 interface MatchDetails {
@@ -150,8 +153,8 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
         </div>
       </div>
 
-      <div className="border-b-4 border-r-4 border-l-4 border-black w-full">
-        Total: 180/3
+      <div className="border-b-4 border-r-4 border-l-4 border-black w-full flex flex-1 justify-start text-lg p-4">
+        Total: {currentInnings.score} - {currentInnings.wickets}
       </div>
 
     </div>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 import ScoreCard from "@/app/components/scorecard";
-import { useParams } from "react-router-dom";
 
 interface PlayerPerformance {
     balls: number;
@@ -33,6 +32,9 @@ interface PlayerPerformance {
   interface Innings {
     batting: PlayerPerformance[];
     bowling: BowlerPerformance[];
+    score: number;
+    team: string;
+    wickets: number;
   }
 
   interface MatchDetails {
@@ -44,25 +46,33 @@ interface PlayerPerformance {
 export default function Home() {
 
     const [matchDetails, setMatchDetails] = useState<MatchDetails | null>(null);
-    const [loading, setLoading] = useState(true);
     
-    const matchNo = sessionStorage.getItem("matchNo")
+    
+    const [matchNo, setMatchNo] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchMatchDetails = async () => {
-          try {
-            const response = await fetch(`http://127.0.0.1:5000/get-scorecard/${matchNo}`); // Replace with your API URL
-            const data: MatchDetails = await response.json();
-            setMatchDetails(data);
-            setLoading(false);
-          } catch (error) {
-            console.error("Error fetching match details:", error);
-            setLoading(false);
-          }
-        };
-    
-        fetchMatchDetails();
-      }, []);
+  useEffect(() => {
+    // Ensure this runs only on the client
+    if (typeof window !== "undefined") {
+      const storedMatchNo = sessionStorage.getItem("matchNo");
+      setMatchNo(storedMatchNo);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!matchNo) return;
+
+    const fetchMatchDetails = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/get-scorecard/${matchNo}`);
+        const data: MatchDetails = await response.json();
+        setMatchDetails(data);
+      } catch (error) {
+        console.error("Error fetching match details:", error);
+      }
+    };
+
+    fetchMatchDetails();
+  }, [matchNo]); // ✅ Depend on matchNo
 
 
   return (
