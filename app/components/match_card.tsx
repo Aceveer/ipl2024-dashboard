@@ -79,8 +79,8 @@ interface MatchCardProps {
                 <Image
                     src={`/teamLogo/${team1}.png`}
                     alt="KKR"
-                    height={24}
-                    width={24}
+                    height={100}
+                    width={100}
                     className="bg-white h-24 w-24 py-2 rounded-full border-4 border-black object-contain"
                 />
                 <div className="flex flex-col text-center p-2 text-lg font-semibold">
@@ -94,8 +94,8 @@ interface MatchCardProps {
                 <Image
                     src={`/teamLogo/${team2}.png`}
                     alt="SRH"
-                    height={24}
-                    width={24}
+                    height={100}
+                    width={100}
                     className="bg-white h-24 w-24 py-2 rounded-full border-4 border-black object-contain"
                 />
                 <div className="flex flex-col text-center p-2 text-lg font-semibold">

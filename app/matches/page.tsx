@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import MatchCard from "../components/match_card";
+import Loader from "../commonFunctions/loader";
 
 interface Match {
   city: string;
@@ -48,7 +49,7 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
   return (
 <div className="flex flex-col min-h-screen">

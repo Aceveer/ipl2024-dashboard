@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 import ScoreCard from "@/app/components/scorecard";
+import BottomFourAnalysis from "@/app/components/bottom_four_analysis";
 
 interface PlayerPerformance {
     balls: number;
@@ -29,12 +30,22 @@ interface PlayerPerformance {
     wickets: number;
   }
 
+  interface Extras {
+    total:number;
+    no_balls:number;
+    wides:number;
+    leg_byes:number;
+    byes:number;
+  }
+  
+
   interface Innings {
     batting: PlayerPerformance[];
     bowling: BowlerPerformance[];
     score: number;
     team: string;
     wickets: number;
+    extras: Extras;
   }
 
   interface MatchDetails {
@@ -46,7 +57,7 @@ interface PlayerPerformance {
 export default function Home() {
 
     const [matchDetails, setMatchDetails] = useState<MatchDetails | null>(null);
-    
+    const [selectedTeam, setSelectedTeam] = useState(1);
     
     const [matchNo, setMatchNo] = useState<string | null>(null);
 
@@ -79,9 +90,9 @@ export default function Home() {
         <div className="flex flex-col min-h-screen">
             <Header />
             <div className="flex-1">
-                    <ScoreCard
-                    matchDetails = {matchDetails}
-                    />
+              <ScoreCard matchDetails = {matchDetails}/>
+              <BottomFourAnalysis disabledOption="Scorecard" />
+
             </div>
             <Footer />
             </div>

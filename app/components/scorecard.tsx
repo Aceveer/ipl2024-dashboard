@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import getBatterAndWicket from "../commonFunctions/scoreCardFunctions";
+import {getBatterAndWicket, getExtras, getOversFromBowlers} from "../commonFunctions/scoreCardFunctions";
+import Loader from "../commonFunctions/loader";
 
 interface PlayerPerformance {
   balls: number;
@@ -26,12 +27,21 @@ interface BowlerPerformance {
   wickets: number;
 }
 
+interface Extras {
+  total:number;
+  no_balls:number;
+  wides:number;
+  leg_byes:number;
+  byes:number;
+}
+
 interface Innings {
   batting: PlayerPerformance[];
   bowling: BowlerPerformance[];
   score: number;
   team: string;
   wickets: number;
+  extras: Extras;
 }
 
 interface MatchDetails {
@@ -50,7 +60,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
   if (!matchDetails) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p>Match details are not available yet. Please wait...</p>
+        <Loader/>
       </div>
     );
   }
@@ -63,20 +73,20 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
       {/* Teams */}
       <div className="flex flex-row items-center text-center text-xl">
         <div
-          className={`border border-black w-full p-2 cursor-pointer ${
+          className={`border border-black w-full p-2 px-8 cursor-pointer ${
             selectedTeam === 1 ? "bg-gray-800 text-white" : "bg-gray-300"
           }`}
           onClick={() => setSelectedTeam(1)}
         >
-          Team 1
+          {matchDetails.innings1.team}
         </div>
         <div
-          className={`border border-black w-full p-2 cursor-pointer ${
+          className={`border border-black w-full p-2 px-8 cursor-pointer ${
             selectedTeam === 2 ? "bg-gray-800 text-white" : "bg-gray-300"
           }`}
           onClick={() => setSelectedTeam(2)}
         >
-          Team 2
+          {matchDetails.innings2.team}
         </div>
       </div>
 
@@ -84,7 +94,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
       <div className="flex justify-between items-start w-full border-2 border-black mt-4">
         {/* Left Table - Batting */}
         <div className="w-1/2 overflow-x-auto">
-          <table className="table-auto border-collapse border border-gray-700 w-full text-left text-sm border-r-4">
+          <table className={`table-auto border-collapse border border-gray-700 w-full text-left text-sm ${currentInnings.bowling.length < currentInnings.batting.length ? "border-r-4 border-gray-700" : ""}`}>
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="border border-gray-700 px-4 py-2 w-1/2">Batter</th>
@@ -122,7 +132,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
 
         {/* Right Table - Bowling */}
         <div className="w-1/2 overflow-x-auto">
-          <table className="table-auto border-collapse border border-gray-700 w-full text-left text-sm">
+          <table className={`table-auto border-collapse border  w-full text-left text-sm ${currentInnings.bowling.length > currentInnings.batting.length ? "border-l-4 border-gray-700" : ""}`}>
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="border border-gray-700 px-4 py-2 w-1/2">Bowler</th>
@@ -153,8 +163,10 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
         </div>
       </div>
 
-      <div className="border-b-4 border-r-4 border-l-4 border-black w-full flex flex-1 justify-start text-lg p-4">
-        Total: {currentInnings.score} - {currentInnings.wickets}
+      <div className="border-b-4 border-r-4 border-l-4 border-black w-full flex flex-1 text-lg p-4 justify-evenly">
+        <div>Total: {currentInnings.score} - {currentInnings.wickets}</div>
+        <div>Overs: {getOversFromBowlers(currentInnings.bowling)}</div>
+        <div>Extras: {getExtras(currentInnings.extras)}</div>
       </div>
 
     </div>
