@@ -91,7 +91,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
       </div>
 
       {/* Tables */}
-      <div className="flex justify-between items-start w-full border-2 border-black mt-4">
+      <div className="flex justify-between items-start w-full border-2 border-black mt-4 ">
         {/* Left Table - Batting */}
         <div className="w-1/2 overflow-x-auto">
           <table className={`table-auto border-collapse border border-gray-700 w-full text-left text-sm ${currentInnings.bowling.length < currentInnings.batting.length ? "border-r-4 border-gray-700" : ""}`}>

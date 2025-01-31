@@ -11,7 +11,7 @@ import {
   LinearScale,
 } from "chart.js";
 import Loader from "../commonFunctions/loader";
-
+import { TooltipItem } from "chart.js"; // Import TooltipItem type
 ChartJS.register(LineElement, PointElement, Tooltip, Legend, CategoryScale, LinearScale);
 
 interface Innings{
@@ -128,22 +128,20 @@ const FOWChart: React.FC<FOWChartProps> = ({ runsPerBall, wickets, teams }) => {
       },
       tooltip: {
         callbacks: {
-          title: function (tooltipItems: any) {
-            // Convert ball number to over format (x.y)
+          title: function (tooltipItems: TooltipItem<'line'>[]) {  // FIXED: Changed 'scatter' to 'line'
             if (tooltipItems.length > 0) {
-              const ball = tooltipItems[0].raw.x;
-              return `Over ${Math.floor(ball / 6)}.${ball % 6}`;
+              const ball = (tooltipItems[0].raw as { x: number }).x; // Explicitly type raw
+              return `Over ${Math.ceil(ball / 6) - 1}.${ball % 6 ? ball % 6 : 6}`;
             }
             return "";
           },
-          label: function (context: any) {
-            if (context.dataset.label.includes("Wickets")) {
-              const wicketData = context.raw;
-              console.log(context.raw);
-              const player = wicketData.player;
-              return `Wicket: ${player}, FoW: ${wicketData.y}`;
+          label: function (context: TooltipItem<'line'>) {  // FIXED: Changed 'scatter' to 'line'
+            const rawData = context.raw as { player?: string; y: number }; // Explicit typing
+  
+            if (context.dataset.label?.includes("Wickets") && rawData.player) {
+              return `Wicket: ${rawData.player}, FoW: ${rawData.y}`;
             }
-            return `Runs: ${context.raw.y}`;
+            return `Runs: ${rawData.y}`;
           },
         },
       },      

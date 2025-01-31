@@ -32,8 +32,8 @@ interface Response{
 
 const FallOfWicketsPage = () => {
     const [matchNo, setMatchNo] = useState<string | null>(null);
+    
     const [runsPerBall, setRunsPerBall] = useState<Runs>();
-    const [runsPerOver, setRunsPerOver] = useState<Innings[]>();
     const [wickets, setWickets] = useState<Runs>();
     const [team,setTeams] = useState<Runs>();
 
@@ -55,7 +55,7 @@ const FallOfWicketsPage = () => {
         const response = await fetch(`http://127.0.0.1:5000/get-fow/${matchNo}`);
         const data: Response = await response.json();
         setRunsPerBall(data.runs)
-        setRunsPerOver(data.runPerOver.innings1)
+
         setWickets(data.FallOfWickets)
         setTeams(data.teams)
             

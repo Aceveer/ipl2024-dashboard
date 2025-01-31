@@ -37,7 +37,6 @@ export default function Home() {
         const response = await fetch(`http://127.0.0.1:5000/matches`); // Replace with your API URL
         const data = await response.json();
         setMatches(data); // Assuming the response is an array of matches
-        console.log(matches);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching match data:", error);
@@ -46,7 +45,7 @@ export default function Home() {
     };
 
     fetchMatches();
-  }, []);
+  }, [matches]);
 
   if (loading) {
     return <Loader/>;

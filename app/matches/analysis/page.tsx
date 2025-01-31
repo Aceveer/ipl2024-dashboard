@@ -57,7 +57,6 @@ interface PlayerPerformance {
 export default function Home() {
 
     const [matchDetails, setMatchDetails] = useState<MatchDetails | null>(null);
-    const [selectedTeam, setSelectedTeam] = useState(1);
     
     const [matchNo, setMatchNo] = useState<string | null>(null);
 
