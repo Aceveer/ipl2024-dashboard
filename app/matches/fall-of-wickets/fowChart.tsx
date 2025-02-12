@@ -10,7 +10,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import Loader from "../commonFunctions/loader";
+import Loader from "../../commonFunctions/loader";
 import { TooltipItem } from "chart.js"; // Import TooltipItem type
 ChartJS.register(LineElement, PointElement, Tooltip, Legend, CategoryScale, LinearScale);
 

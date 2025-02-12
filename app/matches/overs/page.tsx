@@ -4,7 +4,7 @@ import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 import BottomFourAnalysis from "@/app/components/bottom_four_analysis";
 import Loader from "@/app/commonFunctions/loader";
-import RPO from "@/app/components/rpo";
+import RPO from "@/app/matches/overs/rpo";
 
 interface OverData {
     over: string;
@@ -89,7 +89,6 @@ const FallOfWicketsPage = () => {
     if (loading) {
         return <Loader />;
     }
-    console.log(team)
     return (
         <div className="flex flex-col min-h-screen">
     <Header />
@@ -104,11 +103,6 @@ const FallOfWicketsPage = () => {
                 topPerformers={overAnalysis}
             />
             )}
-
-        {/* Row of OversCard Components */}
-        
-
-        {/* BottomFourAnalysis Component */}
         <BottomFourAnalysis disabledOption="Overs" />
     </div>
 

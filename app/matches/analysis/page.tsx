@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
-import ScoreCard from "@/app/components/scorecard";
+import ScoreCard from "@/app/matches/analysis/scorecard";
 import BottomFourAnalysis from "@/app/components/bottom_four_analysis";
 
 interface PlayerPerformance {
@@ -82,7 +82,7 @@ export default function Home() {
     };
 
     fetchMatchDetails();
-  }, [matchNo]); // ✅ Depend on matchNo
+  }, [matchNo]);
 
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import FOWChart from "@/app/components/fowChart";
+import FOWChart from "@/app/matches/fall-of-wickets/fowChart";
 import React, { useEffect, useState } from "react";
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";

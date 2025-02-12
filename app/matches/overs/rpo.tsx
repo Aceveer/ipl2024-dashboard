@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
-import Loader from "../commonFunctions/loader";
-import OversCard from "@/app/components/overs_card";
+import Loader from "../../commonFunctions/loader";
+import OversCard from "@/app/matches/overs/overs_card";
 import { TooltipItem } from "chart.js"; // Import TooltipItem type
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -112,7 +112,7 @@ const RPO: React.FC<RPOProps> = ({ runsPerOver, wicketsPerOver,team, topPerforme
     return (
         <div className="flex flex-col h-auto m-8 items-center text-center">
             {/* Team Selection */}
-            <div className="flex text-xl">
+            <div className="flex flex-row items-center text-center text-xs md:text-xl">
                 <div
                     className={`border border-black w-full p-2 px-8 cursor-pointer ${
                         selectedTeam === 1 ? "bg-gray-800 text-white" : "bg-gray-300"
@@ -132,7 +132,7 @@ const RPO: React.FC<RPOProps> = ({ runsPerOver, wicketsPerOver,team, topPerforme
             </div>
 
             {/* Bar Chart */}
-            <div className="w-full md:w-3/4 mt-6 relative bg-[#9BCBD7] h-auto p-6 m-4 rounded-2xl">
+            <div className="w-full md:w-3/4 mt-6 relative bg-[#9BCBD7] h-full p-6 m-4 rounded-2xl">
                 <Bar data={chartData} options={chartOptions} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-6 mt-6">

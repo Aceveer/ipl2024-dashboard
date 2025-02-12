@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import MatchCard from "../components/match_card";
+import MatchCard from "./match_card";
 import Loader from "../commonFunctions/loader";
 
 interface Match {
@@ -45,7 +45,7 @@ export default function Home() {
     };
 
     fetchMatches();
-  }, [matches]);
+  }, []);
 
   if (loading) {
     return <Loader/>;
