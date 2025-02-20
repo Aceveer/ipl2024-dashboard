@@ -59,7 +59,7 @@ interface MatchCardProps {
     };
 
   return (
-    <div className="flex flex-col bg-[#9BCBD7] h-auto px-4 m-4 rounded-2xl py-2 flex-wrap md:m-16">
+    <div className="flex flex-col bg-[#4C4C47] h-auto px-4 m-4 rounded-2xl py-2 flex-wrap md:m-16">
 
     {/* Header Section */}
     <div className="flex flex-row border-b-2 border-black w-full">

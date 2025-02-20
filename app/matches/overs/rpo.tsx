@@ -132,7 +132,7 @@ const RPO: React.FC<RPOProps> = ({ runsPerOver, wicketsPerOver,team, topPerforme
             </div>
 
             {/* Bar Chart */}
-            <div className="w-full md:w-3/4 mt-6 relative bg-[#9BCBD7] h-full p-6 m-4 rounded-2xl">
+            <div className="w-full md:w-3/4 mt-6 relative bg-[#4C4C47] h-full p-6 m-4 rounded-2xl">
                 <Bar data={chartData} options={chartOptions} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-6 mt-6">

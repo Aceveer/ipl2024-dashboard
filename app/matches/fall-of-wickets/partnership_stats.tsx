@@ -66,7 +66,7 @@ const PartnershipCard: React.FC<PartnershipProps> = ({ innings1data,innings2data
             </div>
         </div>
   
-        <div className="w-full md:w-3/4 mt-6 relative bg-[#9BCBD7] h-auto p-6 m-4 rounded-2xl">
+        <div className="w-full md:w-3/4 mt-6 relative bg-[#4C4C47] h-auto p-6 m-4 rounded-2xl">
         {/* Partnerships List */}
         {currentInnings.map((d, index) => (
           <div key={index} className="border-b border-gray-300 py-2">

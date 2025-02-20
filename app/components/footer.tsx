@@ -56,7 +56,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#92b986] p-6">
+    <footer className="bg-[#C14953] p-6">
       {/* Title */}
       <p className="text-xl font-bold text-left mb-4">
         Visit Team Websites
