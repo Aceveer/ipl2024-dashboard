@@ -3,11 +3,15 @@ import formatDateWithDay from "../commonFunctions/matchCardFunctions";
 import convertOvers from "../commonFunctions/allFunctions";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import TableChartSharpIcon from '@mui/icons-material/TableChartSharp';  // Scorecard
-import SportsCricketSharpIcon from '@mui/icons-material/SportsCricketSharp'; // Overs
-import SportsSharpIcon from '@mui/icons-material/SportsSharp';  // Fall of Wickets
-import GroupSharpIcon from '@mui/icons-material/GroupSharp';  // Partnership
 import { IconButton } from '@mui/material';
+import { FileText, BarChart2, Clock, Users } from "lucide-react";
+
+const analysisOptions = [
+    { name: "Scorecard", icon: FileText, path: "/analysis" },
+    { name: "Fall Of Wickets", icon: BarChart2, path: "/fall-of-wickets" },
+    { name: "Overs", icon: Clock, path: "/overs" },
+    { name: "Partnerships", icon: Users, path: "/partnerships" },
+  ];
 
 interface MatchCardProps {
     matchNo: number;
@@ -53,13 +57,12 @@ interface MatchCardProps {
     const router = useRouter(); // Initialize the router
 
     const redirectTo = (route:string) => {
-        console.log("Hello");
       sessionStorage.setItem("matchNo",matchNo.toString())
       router.push(`/matches/${route}`); // Redirect to the analysis page for the match
     };
 
   return (
-    <div className="flex flex-col bg-[#4C4C47] h-auto px-4 m-4 rounded-2xl py-2 flex-wrap md:m-16">
+    <div className="flex flex-col bg-[#EEEEEE] h-auto px-4 m-4 rounded-2xl py-2 flex-wrap md:m-16 text-[#222831]">
 
     {/* Header Section */}
     <div className="flex flex-row border-b-2 border-black w-full">
@@ -82,9 +85,9 @@ interface MatchCardProps {
                     alt={team1}
                     height={100}
                     width={100}
-                    className="bg-white h-24 w-24 py-2 rounded-full object-contain mx-4"
+                    className="bg-[#FDFFF7] h-24 w-24 py-2 rounded-full object-contain mx-4"
                 />
-                <div className="flex flex-col flex-1 text-left text-sm font-semibold gap-3">
+                <div className={`flex flex-col flex-1 text-left text-sm font-semibold gap-3 ${winningTeam === team1 ? "text-[#0B6623]" : "text-[#D72638]"}`}>
                     <div>{team1}</div>
                     <div>Score: {innings1Score} - {innings1_wickets}</div>
                     <div>Overs: {convertOvers(innings1Overs.toString())}</div>
@@ -93,20 +96,20 @@ interface MatchCardProps {
 
             {/* Middle Section */}
             <div className="flex flex-col justify-evenly items-center gap-3">
-                <div className="text-sm font-bold">Venue: {venue}</div>
-                <div className="text-sm font-bold">Toss: {tossWinner} opt to {tossDecision}</div>
-                <div className="text-sm font-bold">Result: {winningTeam} won by {margin} {wonBy}</div>
-                <div className="text-sm font-bold">Man Of The Match: {playerOfTheMatch}</div>
+                <div className="text-sm"> <span className="font-bold">Venue: </span>{venue}</div>
+                <div className="text-sm"> <span className="font-bold">Toss:  </span> {tossWinner} opt to {tossDecision}</div>
+                <div className="text-sm"> <span className="font-bold">Result: </span> {winningTeam} won by {margin} {wonBy}</div>
+                <div className="text-sm"> <span className="font-bold">Man Of The Match: </span> {playerOfTheMatch}</div>
             </div>
 
             {/* Team 2 (Right) */}
-            <div className="flex flex-row-reverse flex-1 items-start">
+            <div className={`flex flex-row-reverse flex-1 items-start ${winningTeam === team2 ? "text-[#0B6623]" : "text-[#D72638]"}`}>
                 <Image
                     src={`/teamLogo/${team2}.png`}
                     alt={team2}
                     height={100}
                     width={100}
-                    className="bg-white h-24 w-24 py-2 rounded-full object-contain mx-4"
+                    className="bg-[#FDFFF7] h-24 w-24 py-2 rounded-full object-contain mx-4"
                 />
                 <div className="flex flex-col flex-1 text-right text-sm font-semibold gap-3">
                     <div>{team2}</div>
@@ -118,26 +121,17 @@ interface MatchCardProps {
 
         {/* Analysis Section */}
         <div className="hidden lg:flex flex-row justify-evenly pt-2">
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("analysis")}>
-            <TableChartSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Scorecard</div>
-        </IconButton>
-
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("overs")}>
-            <SportsCricketSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Overs</div>
-        </IconButton>
-
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("fall-of-wickets")}>
-            <SportsSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Fall of Wickets</div>
-        </IconButton>
-
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("partnerships")}>
-            <GroupSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Partnership</div>
-        </IconButton>
-    </div>
+            {analysisOptions.map(({ name, icon: Icon, path }) => (
+                <IconButton
+                key={name}
+                className="flex flex-col items-center rounded-2xl p-2"
+                onClick={() => redirectTo(path)}
+                >
+                <Icon size={28} className="text-[#222831]" />
+                <div className="text-xs font-semibold text-[#222831]">{name}</div>
+                </IconButton>
+            ))}
+        </div>
 
     </div>
 
@@ -146,64 +140,53 @@ interface MatchCardProps {
         {/* Left Side - Teams Stacked */}
         <div className="flex flex-col items-start">
             {/* Team 1 */}
-            <div className="flex flex-col items-center mb-4">
+            <div className={`flex flex-col items-center mb-4 ${winningTeam === team1 ? "text-[#0B6623]" : "text-[#D72638]"}`}>
                 <Image
                     src={`/teamLogo/${team1}.png`}
                     alt={team1}
                     height={80}
                     width={80}
-                    className="bg-white h-16 w-16 py-2 rounded-full object-contain"
+                    className="bg-[#FDFFF7] h-16 w-16 py-2 rounded-full object-contain"
                 />
                 <div className="text-sm font-semibold text-center mt-2">{team1}</div>
-                <div className="text-xs text-center font-bold">Score: {innings1Score} - {innings1_wickets}</div>
-                <div className="text-xs text-center font-bold">Overs: {convertOvers(innings1Overs.toString())}</div>
+                <div className="text-xs text-center font-bold">Score: {innings1Score} - {innings1_wickets} ({convertOvers(innings1Overs.toString())})</div>
             </div>
 
             {/* Team 2 */}
-            <div className="flex flex-col items-center">
+            <div className={`flex flex-col items-center ${winningTeam === team2 ? "text-[#0B6623]" : "text-[#D72638]"}`}>
                 <Image
                     src={`/teamLogo/${team2}.png`}
                     alt={team2}
                     height={80}
                     width={80}
-                    className="bg-white h-16 w-16 py-2 rounded-full object-contain"
+                    className="bg-[#FDFFF7] h-16 w-16 py-2 rounded-full object-contain"
                 />
                 <div className="text-sm font-semibold text-center mt-2">{team2}</div>
-                <div className="text-xs text-center font-bold">Score: {innings2Score} - {innings2_wickets}</div>
-                <div className="text-xs text-center font-bold">Overs: {convertOvers(innings2Overs.toString())}</div>
+                <div className="text-xs text-center font-bold">Score: {innings2Score} - {innings2_wickets} ({convertOvers(innings2Overs.toString())})</div>
             </div>
         </div>
 
         {/* Right Side - Match Details (Centered) */}
-        <div className="flex flex-col  justify-center items-center text-center gap-5 w-3/4">
-            <div className="text-xs font-bold">Venue: {venue}</div>
-            <div className="text-xs font-bold">Toss: {tossWinner} opt to {tossDecision}</div>
-            <div className="text-xs font-bold">Result: {winningTeam} won by {margin} {wonBy}</div>
-            <div className="text-xs font-bold">Man Of The Match: {playerOfTheMatch}</div>
+        <div className="flex flex-col  justify-center items-center text-center gap-5 w-3/4 pl-2 ">
+            <div className="text-xs"> <span className="font-bold">Venue: </span>{venue}</div>
+            <div className="text-xs"> <span className="font-bold">Toss: </span>{tossWinner} opt to {tossDecision}</div>
+            <div className="text-xs"> <span className="font-bold">Result: </span>{winningTeam} won by {margin} {wonBy}</div>
+            <div className="text-xs"> <span className="font-bold">Man Of The Match: </span>{playerOfTheMatch}</div>
         </div>
 
         {/* Analysis Section */}
-        <div className="lg:hidden flex flex-col justify-evenly pt-2">
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("analysis")}>
-            <TableChartSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Scorecard</div>
-        </IconButton>
-
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("overs")}>
-            <SportsCricketSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Overs</div>
-        </IconButton>
-
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("fall-of-wickets")}>
-            <SportsSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Fall of Wickets</div>
-        </IconButton>
-
-        <IconButton className="flex flex-col items-center hover:bg-white rounded-2xl p-2" onClick={() => redirectTo("partnerships")}>
-            <GroupSharpIcon fontSize="large" />
-            <div className="text-xs font-semibold">Partnership</div>
-        </IconButton>
-    </div>
+        <div className="lg:hidden flex flex-col pt-2">
+            {analysisOptions.map(({ name, icon: Icon, path }) => (
+                <IconButton
+                key={name}
+                className="flex flex-col items-center hover:bg-white rounded-2xl"
+                onClick={() => redirectTo(path)}
+                >
+                <Icon size={24} />
+                <div className="text-xs font-semibold text-[#222831]">{name}</div>
+                </IconButton>
+            ))}
+        </div>
 
     </div>
 

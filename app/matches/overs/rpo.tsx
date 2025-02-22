@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import Loader from "../../commonFunctions/loader";
 import OversCard from "@/app/matches/overs/overs_card";
 import { TooltipItem } from "chart.js"; // Import TooltipItem type
+import { Button } from "@mui/material";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -58,6 +59,7 @@ interface RPOProps {
 
 const RPO: React.FC<RPOProps> = ({ runsPerOver, wicketsPerOver,team, topPerformers }) => {
     const [selectedTeam, setSelectedTeam] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     if (!runsPerOver || !wicketsPerOver || !team ||!topPerformers) {
         return (
@@ -65,6 +67,22 @@ const RPO: React.FC<RPOProps> = ({ runsPerOver, wicketsPerOver,team, topPerforme
                 <Loader />
             </div>
         );
+    }
+
+    const handleTeamSwitch = (team: number) => {
+    setLoading(true); // Show the loader
+    setTimeout(() => {
+        setSelectedTeam(team);
+        setLoading(false); // Hide the loader after 2 seconds
+    }, 1000);
+    };
+
+    if (loading) {
+    return (
+        <div className="flex justify-center items-center h-full">
+        <Loader />
+        </div>
+    );
     }
 
     const currentRuns = selectedTeam === 1 ? runsPerOver.innings1 : runsPerOver.innings2;
@@ -112,27 +130,25 @@ const RPO: React.FC<RPOProps> = ({ runsPerOver, wicketsPerOver,team, topPerforme
     return (
         <div className="flex flex-col h-auto m-8 items-center text-center">
             {/* Team Selection */}
-            <div className="flex flex-row items-center text-center text-xs md:text-xl">
-                <div
-                    className={`border border-black w-full p-2 px-8 cursor-pointer ${
-                        selectedTeam === 1 ? "bg-gray-800 text-white" : "bg-gray-300"
-                    }`}
-                    onClick={() => setSelectedTeam(1)}
+            <div className="flex flex-row items-center text-center text-xs md:text-xl w-full px-8">
+                <Button
+                variant={selectedTeam === 1 ? "contained" : "outlined"}
+                className="w-full"
+                onClick={() => handleTeamSwitch(1)}
                 >
                     {team.innings1[0].batting}
-                </div>
-                <div
-                    className={`border border-black w-full p-2 px-8 cursor-pointer ${
-                        selectedTeam === 2 ? "bg-gray-800 text-white" : "bg-gray-300"
-                    }`}
-                    onClick={() => setSelectedTeam(2)}
+                </Button>
+                <Button
+                variant={selectedTeam === 2 ? "contained" : "outlined"}
+                className="w-full"
+                onClick={() => handleTeamSwitch(2)}
                 >
                     {team.innings2[0].batting}
-                </div>
+                </Button>
             </div>
 
             {/* Bar Chart */}
-            <div className="w-full md:w-3/4 mt-6 relative bg-[#4C4C47] h-full p-6 m-4 rounded-2xl">
+            <div className="w-full md:w-3/4 mt-6 relative bg-[#EEEEEE] h-full p-6 m-4 rounded-2xl">
                 <Bar data={chartData} options={chartOptions} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-6 mt-6">

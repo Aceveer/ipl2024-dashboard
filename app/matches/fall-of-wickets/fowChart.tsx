@@ -166,7 +166,7 @@ const FOWChart: React.FC<FOWChartProps> = ({ runsPerBall, wickets, teams }) => {
   };
 
   return (
-    <div className="flex flex-col bg-[#4C4C47] h-auto px-6 m-4 rounded-2xl py-4 flex-wrap">
+    <div className="flex flex-col bg-[#EEEEEE] h-auto px-6 m-4 rounded-2xl py-4 flex-wrap">
       <div className="w-full h-[400px] md:h-[500px]">
         <Line data={data} options={options} />
       </div>

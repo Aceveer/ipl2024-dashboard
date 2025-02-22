@@ -56,9 +56,9 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#C14953] p-6">
+    <footer className="bg-[#2892D7] p-6">
       {/* Title */}
-      <p className="text-xl font-bold text-left mb-4">
+      <p className="text-[#222831] text-xl font-bold text-left mb-4">
         Visit Team Websites
       </p>
 
@@ -77,7 +77,7 @@ const Footer = () => {
               href={team.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white hover:underline font-semibold"
+              className="text-[#222831] hover:text-white hover:underline font-semibold"
             >
               {team.team}
             </a>
@@ -86,7 +86,7 @@ const Footer = () => {
       </div>
 
       {/* Mobile Layout */}
-      <div className="md:hidden flex flex-wrap justify-center gap-4">
+      <div className="text-[#222831] md:hidden grid grid-cols-2 justify-center gap-4">
         {teams.map((team, index) => (
           <div key={index} className="flex items-center space-x-2">
             <Image
@@ -100,7 +100,7 @@ const Footer = () => {
               href={team.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm hover:text-white hover:underline font-semibold"
+              className="text-sm text-[#222831] hover:text-white hover:underline font-semibold"
             >
               {team.team}
             </a>

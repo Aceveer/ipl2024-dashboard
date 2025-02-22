@@ -27,7 +27,7 @@ const BottomFourAnalysis: React.FC<BottomFourAnalysisProps> = ({ disabledOption 
             <button
               key={name}
               className={`flex flex-col items-center p-4 rounded-lg transition ${
-                isDisabled ? "bg-gray-300 cursor-not-allowed" : "hover:bg-gray-200"
+                isDisabled ? "bg-[#2A4494] cursor-not-allowed" : "hover:bg-[#224870]"
               }`}
               onClick={() => !isDisabled && router.push(path)}
               disabled={isDisabled}

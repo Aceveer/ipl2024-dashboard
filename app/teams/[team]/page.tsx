@@ -11,6 +11,7 @@ import StatsTable from "@/app/teams/[team]/statsTable";
 import { teams } from "@/app/commonFunctions/teams";
 import WinsCard from "./winsCard";
 import { Button } from "@mui/material";
+import Loader from "@/app/commonFunctions/loader";
 
 interface Response {
   average_analysis: Analysis;
@@ -69,6 +70,7 @@ export default function TeamDetails() {
 
   const [teamData, setTeamData] = useState<Response | null>(null);
   const [isBatting, setIsBatting] = useState(true);
+  const [loader,setLoader] = useState(false);
 
   const team = teams.find((t) => t.code === teamName);
 
@@ -79,6 +81,7 @@ export default function TeamDetails() {
 
     const fetchMatchDetails = async () => {
       try {
+        setLoader(true)
         const response = await fetch(`http://127.0.0.1:5000/get-teams/${teamName}`);
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);
@@ -88,16 +91,25 @@ export default function TeamDetails() {
       } catch (error) {
         console.error("Error fetching match details:", error);
       }
+      setLoader(false)
     };
 
     fetchMatchDetails();
   }, [teamName]);
 
+  const handleTeamSwitch = (state: boolean) => {
+    setLoader(true); // Show the loader
+    setTimeout(() => {
+      setIsBatting(state); // Switch state after loader delay
+      setLoader(false); // Hide loader
+    }, 500);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      {teamData && (
+      {loader ? <Loader/> : teamData && (
         <div className="flex flex-col items-center p-6 space-y-6 w-full">
           {/* Team Header with Logo & Name */}
           <div
@@ -144,10 +156,22 @@ export default function TeamDetails() {
 
           {/* Toggle Button & Stats Table */}
           <div className="w-full flex flex-col items-center">
-            <Button variant="contained" color="primary" onClick={() => setIsBatting(!isBatting)}>
-              {isBatting ? "Show Bowlers" : "Show Batters"}
+          <div className="flex flex-row items-center text-center text-xs md:text-xl w-full px-8">
+            <Button
+              variant={isBatting ? "contained" : "outlined"}
+              className="w-full"
+              onClick={() => handleTeamSwitch(true)}
+            >
+              Show Batters
             </Button>
-
+            <Button
+              variant={!isBatting ? "contained" : "outlined"}
+              className="w-full"
+              onClick={() => handleTeamSwitch(false)}
+            >
+              Show Bowlers
+            </Button>
+          </div>
             <StatsTable
               stats={
                 isBatting

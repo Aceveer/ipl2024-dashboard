@@ -10,6 +10,8 @@ import {teams} from "@/app/commonFunctions/teams"
 import AllPurposeCard from "./allPurposeCard";
 import Grid from "@mui/material/Grid";
 import BestPlayerCard from "./bestPlayerCard";
+import PhaseStatsCard from "./phaseStatCard";
+import Loader from "@/app/commonFunctions/loader";
 
 interface Response {
   avg_score_batting_first: number;
@@ -33,18 +35,46 @@ interface Response {
   matches_won_batting_first: number;
   matches_won_batting_second: number;
   venue_name: string;
+  phase_stats: {
+		firstInnings: {
+			Death: {
+				runs: number,
+				wickets: number
+			},
+			Middle: {
+				runs: number,
+				wickets: number
+			},
+			Powerplay: {
+				runs: number,
+				wickets: number
+			}
+		},
+		secondInnings: {
+			Death: {
+				runs: number,
+				wickets: number
+			},
+			Middle: {
+				runs: number,
+				wickets: number
+			},
+			Powerplay: {
+				runs: number,
+				wickets: number
+			}
+		}
+	},
 }
 
 export default function TeamDetails() {
     const params = useParams();
     const venueName = params?.venue ? decodeURIComponent(params.venue as string) : null;
-
+    const [loader,setLoader] = useState(true);
     const [venueData, setVenueData] = useState<Response | null>(null);
 
     const venue = venues.find((v) => v.name === venueName); // Find venue
     const team = teams.find((t) => t.code === venue?.team); // Find team by code
-    console.log(venue)
-    console.log(team)
     
     const fromColor = team?.from || "#000"; // Default to black
     const toColor = team?.to || "#333"; // Default to dark gray
@@ -56,12 +86,14 @@ export default function TeamDetails() {
   
     const fetchMatchDetails = async () => {
       try {
+        setLoader(true);
         const response = await fetch(`http://127.0.0.1:5000/get-venue/${encodeURIComponent(venueName)}`);
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);
         }
         const data: Response = await response.json();
         setVenueData(data);
+        setLoader(false);
       } catch (error) {
         console.error("Error fetching match details:", error);
       }
@@ -73,6 +105,7 @@ export default function TeamDetails() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
+      {loader ? <Loader/> : (
       <div className="flex flex-col items-center p-6 space-y-6 w-full">
           {/* Team Header with Logo & Name */}
           <div
@@ -88,14 +121,22 @@ export default function TeamDetails() {
               height={75}
               className="rounded-lg"
             />
-            <h1 className="text-4xl font-extrabold text-white ml-6">{venue?.name}</h1>
-            <h1 className="text-4xl font-extrabold text-white ml-6">Home Team: {team?.name}</h1>
+            <h1 className="text-m font-extrabold text-white ml-6 md:text-4xl">{venue?.name}</h1>
+            <h1 className="text-m font-extrabold text-white ml-6 md:text-4xl">Home Team: {team?.name}</h1>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <AllPurposeCard
+                title = {"Match Wins"}
+                subheading1 = {"Wins Batting First"}
+                value1 = {venueData?.matches_won_batting_first as number}
+                suffix = {"Wins"}
+                subheading2 = {"Wins Batting Second"}
+                value2 = {venueData?.matches_won_batting_second as number}
+            />
             <AllPurposeCard
-                title = {"Batting Scores"}
+                title = {"Average Scores"}
                 subheading1 = {"Batting First"}
                 value1 = {venueData?.avg_score_batting_first as number}
                 suffix = {"Runs"}
@@ -103,20 +144,41 @@ export default function TeamDetails() {
                 value2 = {venueData?.avg_score_batting_second as number}
             />
             <AllPurposeCard
-                title = {"Bowling Wickets"}
+                title = {"Wickets Taken"}
                 subheading1 = {"Bowling First"}
                 value1 = {venueData?.avg_wickets_bowling_first as number}
                 suffix = {"Wickets"}
                 subheading2 = {"Bowling Second"}
                 value2 = {venueData?.avg_wickets_bowling_second as number}
             />
-            <AllPurposeCard
-                title = {"Match Wins"}
-                subheading1 = {"Wins Batting First"}
-                value1 = {venueData?.matches_won_batting_first as number}
-                suffix = {"Wins"}
-                subheading2 = {"Wins Batting Second"}
-                value2 = {venueData?.matches_won_batting_second as number}
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <PhaseStatsCard
+                desc="Powerplay"
+                overs="0-6"
+                wickets1={venueData?.phase_stats.firstInnings.Powerplay.wickets ?? 1}
+                runs1={venueData?.phase_stats.firstInnings.Powerplay.runs ?? 1}
+                wickets2={venueData?.phase_stats.secondInnings.Powerplay.wickets ?? 1}
+                runs2={venueData?.phase_stats.secondInnings.Powerplay.runs ?? 1}
+                matches={venueData?.matches_played ?? 1}
+            />
+            <PhaseStatsCard
+              desc="Middle"
+              overs="7-15"
+              wickets1={venueData?.phase_stats.firstInnings.Middle.wickets ?? 1}
+              runs1={venueData?.phase_stats.firstInnings.Middle.runs ?? 1}
+              wickets2={venueData?.phase_stats.secondInnings.Middle.wickets ?? 1}
+              runs2={venueData?.phase_stats.secondInnings.Middle.runs ?? 1}
+              matches={venueData?.matches_played ?? 1}
+            />
+            <PhaseStatsCard
+              desc="Death"
+              overs="16-20"
+              wickets1={venueData?.phase_stats.firstInnings.Death.wickets ?? 1}
+              runs1={venueData?.phase_stats.firstInnings.Death.runs ?? 1}
+              wickets2={venueData?.phase_stats.secondInnings.Death.wickets ?? 1}
+              runs2={venueData?.phase_stats.secondInnings.Death.runs ?? 1}
+              matches={venueData?.matches_played ?? 1}
             />
           </div>
           <Grid container spacing={2}>
@@ -144,6 +206,7 @@ export default function TeamDetails() {
 
 
         </div>
+        )}
       <div className="mt-auto">
         <Footer />
       </div>

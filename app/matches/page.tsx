@@ -47,13 +47,12 @@ export default function Home() {
     fetchMatches();
   }, []);
 
-  if (loading) {
-    return <Loader/>;
-  }
   return (
 <div className="flex flex-col min-h-screen">
       <Header />
+      {loading? <Loader/> : (
       <div className="flex-1">
+        
         {/* Render MatchCards dynamically */}
         {matches.map((match) => (
           <MatchCard
@@ -78,6 +77,7 @@ export default function Home() {
           />
         ))}
       </div>
+      )}
       <Footer />
     </div>
   );

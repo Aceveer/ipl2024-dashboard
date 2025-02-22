@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import Loader from "../../commonFunctions/loader";
+import { Button } from "@mui/material";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -36,6 +37,23 @@ interface PartnershipProps {
 
 const PartnershipCard: React.FC<PartnershipProps> = ({ innings1data,innings2data,innings1batting,innings2batting }) => {
     const [selectedTeam, setSelectedTeam] = useState(1);
+    const [loading, setLoading] = useState(false);
+
+    const handleTeamSwitch = (team: number) => {
+      setLoading(true); // Show the loader
+      setTimeout(() => {
+        setSelectedTeam(team);
+        setLoading(false); // Hide the loader after 2 seconds
+      }, 1000);
+    };
+
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+      );
+    }
   
     if (!innings1data || !innings2data || !innings1batting || !innings2batting) {
       return <Loader/>;
@@ -47,26 +65,24 @@ const PartnershipCard: React.FC<PartnershipProps> = ({ innings1data,innings2data
       <div className="flex flex-col h-auto m-8 items-center text-center">
         
         {/* Team Selection */}
-        <div className="flex text-xl">
-            <div
-                className={`border border-black w-full p-2 px-8 cursor-pointer ${
-                    selectedTeam === 1 ? "bg-gray-800 text-white" : "bg-gray-300"
-                }`}
-                onClick={() => setSelectedTeam(1)}
-            >
-                {innings1batting}
-            </div>
-            <div
-                className={`border border-black w-full p-2 px-8 cursor-pointer ${
-                    selectedTeam === 2 ? "bg-gray-800 text-white" : "bg-gray-300"
-                }`}
-                onClick={() => setSelectedTeam(2)}
-            >
-                {innings2batting}
-            </div>
-        </div>
+        <div className="flex flex-row items-center text-center text-xs md:text-xl w-full px-8">
+        <Button
+          variant={selectedTeam === 1 ? "contained" : "outlined"}
+          className="w-full"
+          onClick={() => handleTeamSwitch(1)}
+        >
+          {innings1batting}
+        </Button>
+        <Button
+          variant={selectedTeam === 2 ? "contained" : "outlined"}
+          className="w-full"
+          onClick={() => handleTeamSwitch(2)}
+        >
+          {innings2batting}
+        </Button>
+      </div>
   
-        <div className="w-full md:w-3/4 mt-6 relative bg-[#4C4C47] h-auto p-6 m-4 rounded-2xl">
+        <div className="w-full md:w-3/4 mt-6 relative bg-[#EEEEEE] h-auto p-6 m-4 rounded-2xl text-[#393E46]">
         {/* Partnerships List */}
         {currentInnings.map((d, index) => (
           <div key={index} className="border-b border-gray-300 py-2">

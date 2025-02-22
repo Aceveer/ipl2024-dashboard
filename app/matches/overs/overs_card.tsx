@@ -28,11 +28,13 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
     desc,
 }) => {
     return (
-        <div className="w-full flex justify-center mt-6 flex-wrap">
-            <div className="bg-white shadow-lg rounded-xl p-2 md:p-4 flex flex-row w-3/4 md:w-3/4 lg:w-3/4 text-center border border-gray-300">
+        <div className="w-full flex justify-center mt-6 flex-wrap text-[#393E46]">
+            <div className={`shadow-lg rounded-xl p-2 md:p-4 flex flex-row w-3/4 md:w-3/4 lg:w-3/4 text-center
+                            ${desc === "Powerplay" ? "bg-gradient-to-r from-[#FFEA00] to-[#FFC107]" : desc === "Middle" ? "bg-gradient-to-r from-[#00E5FF] to-[#03A9F4]" : "bg-gradient-to-r from-[#FF9A8B] to-[#FF6A88]" }
+                    `}>
                 
                 {/* Left Column - Runs & Overs */}
-                <div className="flex flex-col w-1/3 justify-center items-center border-r">
+                <div className="flex flex-col w-1/3 justify-center items-center">
                     <div className="text-sm md:text-lg font-bold">{runs} - {wickets}</div>
                     <div className="text-xs md:text-sm text-gray-600">{overs} Overs</div>
                     <div className="text-xs md:text-sm text-gray-600 font-bold">{desc}</div>

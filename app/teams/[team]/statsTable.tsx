@@ -36,7 +36,7 @@ const StatsTable: React.FC<StatsTableProps> = ({ stats, isBatting }) => {
       <TableContainer component={Paper} className="mt-4">
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow className="bg-[#81D2C7]">
               <TableCell>Player</TableCell>
               {isBatting ? (
                 <>

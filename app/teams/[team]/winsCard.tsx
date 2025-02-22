@@ -9,7 +9,7 @@ interface WinsCardProps {
   team_won_bowling_first: number;
 }
 
-const WinsCard: React.FC<WinsCardProps> = ({ teamName, batting_first_count, bowling_first_count, team_won_batting_first, team_won_bowling_first }) => {
+const WinsCard: React.FC<WinsCardProps> = ({ batting_first_count, bowling_first_count, team_won_batting_first, team_won_bowling_first }) => {
   
   // Calculate win percentages
   const battingWinPercent = batting_first_count > 0 ? (team_won_batting_first / batting_first_count) * 100 : 0;
@@ -19,12 +19,25 @@ const WinsCard: React.FC<WinsCardProps> = ({ teamName, batting_first_count, bowl
   const getColor = (winPercent: number) => (winPercent >= 50 ? "green" : "red");
 
   return (
-    <Card sx={{ minWidth: 275, boxShadow: 3, borderRadius: 2, padding: 2 }}>
+    <Card
+      sx={{
+        minWidth: 275,
+        boxShadow: 3,
+        borderRadius: 2,
+        padding: 2,
+        transition: "transform 0.3s ease-in-out",
+        "&:hover": {
+          transform: "scale(1.05)",
+        },
+        background: "linear-gradient(to right, #C6E5B1, #E1F5C4)",
+        color: "black", // Ensures readability with lighter backgrounds
+      }}
+    >
       <CardContent>
 
         {/* Title */}
         <Typography variant="h6" component="div" fontWeight="bold" sx={{ textDecoration: "underline", textAlign: "left" }}>
-          {teamName} - Match Wins
+          Match Wins
         </Typography>
 
         {/* Matches & Wins */}
