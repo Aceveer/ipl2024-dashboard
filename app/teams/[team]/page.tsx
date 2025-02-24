@@ -82,7 +82,7 @@ export default function TeamDetails() {
     const fetchMatchDetails = async () => {
       try {
         setLoader(true)
-        const response = await fetch(`http://127.0.0.1:5000/get-teams/${teamName}`);
+        const response = await fetch(`https://python-ipl-2024.onrender.com/get-teams/${teamName}`);
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);
         }
@@ -125,12 +125,12 @@ export default function TeamDetails() {
               height={75}
               className="rounded-lg"
             />
-            <h1 className="text-5xl font-extrabold text-white ml-6">{team?.name}</h1>
-            <h1 className="text-5xl font-extrabold text-white ml-6">{teamData.teamAnalysis.points}</h1>
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-extrabold text-white ml-6">{team?.name}</h1>
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-extrabold text-white ml-6">{teamData.teamAnalysis.points}</h1>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <WinsCard
               teamName={teamName || ""}
               batting_first_count={teamData.teamAnalysis.batting_first_count}

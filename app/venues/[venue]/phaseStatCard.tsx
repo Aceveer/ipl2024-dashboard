@@ -50,13 +50,13 @@ const PhaseStatsCard: React.FC<PhaseStatsCardProps> = ({ desc, runs1, runs2, wic
 
                 {/* Innings 1 Row */}
                 <Typography variant="body1" fontWeight="bold">Innings 1</Typography>
-                <Typography variant="body2" className={`${avgScore1 <= Math.round(runs1 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(runs1 / matches)}</strong> <span className="text-gray-500 font-bold">(par {avgScore1})</span></Typography>
-                <Typography variant="body2" className={`${avgWicket1 <= Math.round(wickets1 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(wickets1 / matches)}</strong> <span className="text-gray-500 font-bold">(par {avgWicket1})</span></Typography>
+                <Typography variant="body2" className={`${avgScore1 <= Math.round(runs1 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(runs1 / matches)}</strong> <span className="text-gray-700 font-bold">(par {avgScore1})</span></Typography>
+                <Typography variant="body2" className={`${avgWicket1 <= Math.round(wickets1 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(wickets1 / matches)}</strong> <span className="text-gray-700 font-bold">(par {avgWicket1})</span></Typography>
 
                 {/* Innings 2 Row */}
                 <Typography variant="body1" fontWeight="bold">Innings 2</Typography>
-                <Typography variant="body2" className={`${avgScore2 <= Math.round(runs2 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(runs2 / matches)}</strong> <span className="text-gray-500 font-bold">(par {avgScore2})</span></Typography>
-                <Typography variant="body2" className={`${avgWicket2 <= Math.round(wickets2 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(wickets2 / matches)}</strong> <span className="text-gray-500 font-bold">(par {avgWicket2})</span></Typography>
+                <Typography variant="body2" className={`${avgScore2 <= Math.round(runs2 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(runs2 / matches)}</strong> <span className="text-gray-700 font-bold">(par {avgScore2})</span></Typography>
+                <Typography variant="body2" className={`${avgWicket2 <= Math.round(wickets2 / matches) ? "text-green-900" : "text-red-700"}`}><strong>{Math.round(wickets2 / matches)}</strong> <span className="text-gray-700 font-bold">(par {avgWicket2})</span></Typography>
             </Box>
         </CardContent>
     </Card>

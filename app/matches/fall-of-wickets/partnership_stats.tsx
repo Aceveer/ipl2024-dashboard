@@ -86,18 +86,18 @@ const PartnershipCard: React.FC<PartnershipProps> = ({ innings1data,innings2data
         {/* Partnerships List */}
         {currentInnings.map((d, index) => (
           <div key={index} className="border-b border-gray-300 py-2">
-            <div className="flex justify-between text-lg font-semibold">
+            <div className="flex justify-between text-lg font-semibold text-sm md:text-base">
               <span>{d.batter1}</span>
               <span>{d.batter2}</span>
             </div>
   
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-gray-600 text-sm md:text-base">
               <span className="font-bold">{d.runs1} ({d.balls1})</span>
               <span className="font-bold">{d.runs2} ({d.balls2})</span>
             </div>
   
             {/* Bar Representation */}
-            <div className="relative mt-2 h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+            <div className="relative mt-2 h-3 w-full bg-gray-200 rounded-full overflow-hidden ">
               <div
                 className="absolute left-0 h-full bg-[#4CAF50]"
                 style={{ width: `${(d.contribution1 / d.runs) * 100}%` }}
@@ -112,7 +112,7 @@ const PartnershipCard: React.FC<PartnershipProps> = ({ innings1data,innings2data
               ></div>
             </div>
   
-            <div className="text-center mt-2">
+            <div className="text-center mt-2 text-sm md:text-base">
               Partnership - <span className="font-bold">{d.runs} ({d.balls})</span>
             </div>
             {d.extras > 0 && <div className="text-center text-sm text-gray-500">Extras - {d.extras}</div>}

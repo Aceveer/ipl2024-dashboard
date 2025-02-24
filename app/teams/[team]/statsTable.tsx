@@ -1,7 +1,16 @@
 "use client";
 
-import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TableSortLabel,
+} from "@mui/material";
 
 interface PlayerStats {
   name: string;
@@ -31,44 +40,86 @@ interface StatsTableProps {
 }
 
 const StatsTable: React.FC<StatsTableProps> = ({ stats, isBatting }) => {
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [orderBy, setOrderBy] = useState<keyof PlayerStats | "">("");
+
+  const handleSort = (property: keyof PlayerStats) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const sortedStats = [...stats].sort((a, b) => {
+    if (!orderBy) return 0;
+    const aValue = Number(a[orderBy]) || 0;
+    const bValue = Number(b[orderBy]) || 0;
+    return order === "asc" ? aValue - bValue : bValue - aValue;
+  });
+
   return (
     <div className="w-full">
       <TableContainer component={Paper} className="mt-4">
         <Table>
           <TableHead>
             <TableRow className="bg-[#81D2C7]">
-              <TableCell>Player</TableCell>
-              {isBatting ? (
-                <>
-                  <TableCell>Runs</TableCell>
-                  <TableCell>Balls</TableCell>
-                  <TableCell>Matches</TableCell>
-                  <TableCell>Not Outs</TableCell>
-                  <TableCell>High Score</TableCell>
-                  <TableCell>Avg</TableCell>
-                  <TableCell>SR</TableCell>
-                  <TableCell>100s</TableCell>
-                  <TableCell>50s</TableCell>
-                  <TableCell>4s</TableCell>
-                  <TableCell>6s</TableCell>
-                </>
-              ) : (
-                <>
-                  <TableCell>Wkts</TableCell>
-                  <TableCell>Overs</TableCell>
-                  <TableCell>Runs</TableCell>
-                  <TableCell>Avg</TableCell>
-                  <TableCell>Econ</TableCell>
-                  <TableCell>SR</TableCell>
-                  <TableCell>3W</TableCell>
-                  <TableCell>4W</TableCell>
-                  <TableCell>5W</TableCell>
-                </>
-              )}
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "name"}
+                  direction={orderBy === "name" ? order : "asc"}
+                  onClick={() => handleSort("name")}
+                >
+                  Player
+                </TableSortLabel>
+              </TableCell>
+              {isBatting
+                ? [
+                    "runs",
+                    "balls",
+                    "matches",
+                    "notOuts",
+                    "highScore",
+                    "average",
+                    "strikeRate",
+                    "hundreds",
+                    "fifties",
+                    "fours",
+                    "sixes",
+                  ].map((col) => (
+                    <TableCell key={col}>
+                      <TableSortLabel
+                        active={orderBy === col}
+                        direction={orderBy === col ? order : "asc"}
+                        onClick={() => handleSort(col as keyof PlayerStats)}
+                      >
+                        {col.charAt(0).toUpperCase() + col.slice(1)}
+                      </TableSortLabel>
+                    </TableCell>
+                  ))
+                : [
+                    "wickets",
+                    "overs",
+                    "runs",
+                    "average",
+                    "economy",
+                    "strikeRate",
+                    "threeW",
+                    "fourW",
+                    "fiveW",
+                  ].map((col) => (
+                    <TableCell key={col}>
+                      <TableSortLabel
+                        active={orderBy === col}
+                        direction={orderBy === col ? order : "asc"}
+                        onClick={() => handleSort(col as keyof PlayerStats)}
+                      >
+                        {col.charAt(0).toUpperCase() + col.slice(1)}
+                      </TableSortLabel>
+                    </TableCell>
+                  ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {stats.map((player) => (
+            {sortedStats.map((player) => (
               <TableRow key={player.name}>
                 <TableCell>{player.name}</TableCell>
                 {isBatting ? (

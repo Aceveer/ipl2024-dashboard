@@ -34,22 +34,22 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
                     `}>
                 
                 {/* Left Column - Runs & Overs */}
-                <div className="flex flex-col w-1/3 justify-center items-center">
+                <div className="flex flex-col w-1/3 justify-center items-center text-xs md:text-base">
                     <div className="text-sm md:text-lg font-bold">{runs} - {wickets}</div>
-                    <div className="text-xs md:text-sm text-gray-600">{overs} Overs</div>
-                    <div className="text-xs md:text-sm text-gray-600 font-bold">{desc}</div>
+                    <div className="text-xs md:text-sm text-gray-800">{overs} Overs</div>
+                    <div className="text-xs md:text-sm text-gray-800 font-bold">{desc}</div>
                 </div>
 
                 {/* Right Column - Batter & Bowler Info */}
                 <div className="flex flex-col w-2/3 pl-4 text-left">
                     {/* Batter Info */}
-                    <div className="text-sm font-semibold">
-                        {batterName} - {batterRuns} ({batterBalls})
+                    <div className="text-sm">
+                        <span className="font-semibold">{batterName}</span> - {batterRuns} ({batterBalls})
                     </div>
                     
                     {/* Bowler Info */}
                     <div className="mt-2 text-sm text-gray-700">
-                        {bowlerName} - {bowlerRuns} Runs - {bowlerOvers/6} Over(s) - {bowlerWickets} Wicket(s)
+                    <span className="font-semibold">{bowlerName}</span> - {bowlerRuns} Runs - {bowlerOvers/6} Over(s) - {bowlerWickets} Wicket(s)
                     </div>
                 </div>
             </div>

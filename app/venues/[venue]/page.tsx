@@ -87,7 +87,7 @@ export default function TeamDetails() {
     const fetchMatchDetails = async () => {
       try {
         setLoader(true);
-        const response = await fetch(`http://127.0.0.1:5000/get-venue/${encodeURIComponent(venueName)}`);
+        const response = await fetch(`https://python-ipl-2024.onrender.com/get-venue/${encodeURIComponent(venueName)}`);
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);
         }
@@ -119,10 +119,10 @@ export default function TeamDetails() {
               alt={team?.code || ""}
               width={75}
               height={75}
-              className="rounded-lg"
+              className="rounded-lg h-12 w-12 md:h-24 md:w-24"
             />
-            <h1 className="text-m font-extrabold text-white ml-6 md:text-4xl">{venue?.name}</h1>
-            <h1 className="text-m font-extrabold text-white ml-6 md:text-4xl">Home Team: {team?.name}</h1>
+            <h1 className="text-m font-extrabold text-white ml-6 md:text-2xl">{venue?.name}</h1>
+            <h1 className="text-m font-extrabold text-white ml-6 md:text-2xl"><span className="italic">Home Team </span><span className="font-bold">{team?.name}</span></h1>
           </div>
 
           {/* Stats Cards */}
@@ -152,7 +152,7 @@ export default function TeamDetails() {
                 value2 = {venueData?.avg_wickets_bowling_second as number}
             />
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <PhaseStatsCard
                 desc="Powerplay"
                 overs="0-6"
@@ -194,7 +194,7 @@ export default function TeamDetails() {
             </Grid>
             <Grid item xs={12} sm={6}>
                 <BestPlayerCard 
-                title="Highest Wicket Taker" 
+                title="Best Bowler" 
                 name={venueData?.highest_wicket_taker.bowler as string} 
                 matchNo={venueData?.highest_wicket_taker.match_no as number} 
                 statLabel="Wickets" 

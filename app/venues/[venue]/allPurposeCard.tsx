@@ -15,7 +15,7 @@ const AllPurposeCard: React.FC<AllPurposeCardProps> = ({ title, subheading1, val
 
   return (
     <Card sx={{
-        minWidth: 275,
+        minWidth: 200,
         boxShadow: 3,
         borderRadius: 2,
         padding: 2,

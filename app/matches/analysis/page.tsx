@@ -4,6 +4,7 @@ import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 import ScoreCard from "@/app/matches/analysis/scorecard";
 import BottomFourAnalysis from "@/app/components/bottom_four_analysis";
+import MatchHeader from "../../components/matchHeader";
 
 interface PlayerPerformance {
     balls: number;
@@ -51,6 +52,14 @@ interface PlayerPerformance {
   interface MatchDetails {
     innings1: Innings;
     innings2: Innings;
+    header: {
+            matchNo : number,
+            venue : string
+            date : string,
+            winning_team : string,
+            margin : number,
+            won_by : string
+        }
   }
 
 
@@ -73,7 +82,7 @@ export default function Home() {
 
     const fetchMatchDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/get-scorecard/${matchNo}`);
+        const response = await fetch(`https://python-ipl-2024.onrender.com/get-scorecard/${matchNo}`);
         const data: MatchDetails = await response.json();
         setMatchDetails(data);
       } catch (error) {
@@ -89,6 +98,14 @@ export default function Home() {
         <div className="flex flex-col min-h-screen">
             <Header />
             <div className="flex-1">
+              <MatchHeader 
+                matchNo={matchDetails?.header.matchNo}
+                margin={matchDetails?.header.margin}
+                date={matchDetails?.header.date}
+                venue={matchDetails?.header.venue}
+                winning_team={matchDetails?.header.winning_team}
+                won_by={matchDetails?.header.won_by}
+                />
               <ScoreCard matchDetails = {matchDetails}/>
               <BottomFourAnalysis disabledOption="Scorecard" />
 

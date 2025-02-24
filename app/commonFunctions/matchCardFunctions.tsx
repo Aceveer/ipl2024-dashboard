@@ -1,4 +1,8 @@
 function formatDateWithDay(dateString: string): string {
+
+  if(!dateString){
+    return ""
+  }
     const [day, month, year] = dateString.split("-"); // Split the input string into day, month, year
     const dateObj = new Date(`${year}-${month}-${day}`); // Create a Date object using the input
     

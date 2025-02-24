@@ -5,6 +5,7 @@ import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 import BottomFourAnalysis from "@/app/components/bottom_four_analysis";
 import Loader from "@/app/commonFunctions/loader";
+import MatchHeader from "@/app/components/matchHeader";
 
 interface Runs{
     innings1: Innings [];
@@ -26,7 +27,14 @@ interface Response{
     FallOfWickets: Runs;
     runPerOver: Runs;
     teams: Runs;
-
+    header: {
+        matchNo : number,
+        venue : string
+        date : string,
+        winning_team : string,
+        margin : number,
+        won_by : string
+    }
 }
 
 
@@ -36,7 +44,7 @@ const FallOfWicketsPage = () => {
     const [runsPerBall, setRunsPerBall] = useState<Runs>();
     const [wickets, setWickets] = useState<Runs>();
     const [team,setTeams] = useState<Runs>();
-
+    const [header,setHeader] = useState<Response["header"]>();
     const [loading,setLoading] = useState(true)
 
     useEffect(() => {
@@ -52,13 +60,13 @@ const FallOfWicketsPage = () => {
 
     const fetchMatchDetails = async () => {
         try {
-        const response = await fetch(`http://127.0.0.1:5000/get-fow/${matchNo}`);
+        const response = await fetch(`https://python-ipl-2024.onrender.com/get-fow/${matchNo}`);
         const data: Response = await response.json();
         setRunsPerBall(data.runs)
 
         setWickets(data.FallOfWickets)
         setTeams(data.teams)
-            
+        setHeader(data.header)
         setLoading(false);
         } catch (error) {
         console.error("Error fetching match details:", error);
@@ -76,6 +84,14 @@ const FallOfWicketsPage = () => {
     <div className="flex flex-col min-h-screen">
         <Header />
         <div className="flex-1">
+        <MatchHeader 
+                matchNo={header?.matchNo}
+                margin={header?.margin}
+                date={header?.date}
+                venue={header?.venue}
+                winning_team={header?.winning_team}
+                won_by={header?.won_by}
+                />
             <FOWChart
                 runsPerBall={runsPerBall || { innings1: [], innings2: [] }}
                 wickets={wickets || { innings1: [], innings2: [] }}

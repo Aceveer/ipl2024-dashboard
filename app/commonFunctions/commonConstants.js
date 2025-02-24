@@ -17,5 +17,6 @@ export const stats = {
     avgSecondInningsMiddleWickets:3,
     avgFirstInningsDeathWickets:2,
     avgSecondInningsDeathWickets:2,
-
 }
+
+export const API_URL = process.env.REACT_APP_API_URL;

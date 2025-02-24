@@ -47,6 +47,14 @@ interface Innings {
 interface MatchDetails {
   innings1: Innings;
   innings2: Innings;
+  header: {
+    matchNo : number,
+    venue : string
+    date : string,
+    winning_team : string,
+    margin : number,
+    won_by : string
+}
 }
 
 interface ScoreCardProps {
@@ -85,6 +93,8 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ matchDetails }) => {
 
   return (
     <div className="flex flex-col h-auto m-8 flex-wrap align-middle items-center text-center">
+
+
       {/* Team Selection */}
       <div className="flex flex-row items-center text-center text-xs md:text-xl w-full px-8">
         <Button

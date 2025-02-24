@@ -5,6 +5,7 @@ import Footer from "@/app/components/footer";
 import BottomFourAnalysis from "@/app/components/bottom_four_analysis";
 import Loader from "@/app/commonFunctions/loader";
 import RPO from "@/app/matches/overs/rpo";
+import MatchHeader from "@/app/components/matchHeader";
 
 interface OverData {
     over: string;
@@ -44,7 +45,15 @@ interface ResponseData {
     runPerOver: Innings;
     wicketOver: Innings;
     teams: TeamData;
-    topPerformers:OverAnalysis
+    topPerformers:OverAnalysis,
+    header: {
+        matchNo : number,
+        venue : string
+        date : string,
+        winning_team : string,
+        margin : number,
+        won_by : string
+    }
 }
 
 
@@ -54,7 +63,7 @@ const FallOfWicketsPage = () => {
     const [wickets, setWickets] = useState<Innings>({ innings1: [], innings2: [] });
     const [team,setTeam] = useState<TeamData>({innings1:[], innings2:[]});
     const [overAnalysis, setOverAnalysis] = useState<OverAnalysis>();
-
+    const [header, setHeader] = useState<ResponseData["header"]>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -69,12 +78,13 @@ const FallOfWicketsPage = () => {
 
         const fetchMatchDetails = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/get-overs/${matchNo}`);
+                const response = await fetch(`https://python-ipl-2024.onrender.com/get-overs/${matchNo}`);
                 const data: ResponseData = await response.json();
                 setRunsPerOver(data.runPerOver);
                 setWickets(data.wicketOver);
                 setTeam(data.teams)
                 setOverAnalysis(data.topPerformers)
+                setHeader(data.header);
 
             } catch (error) {
                 console.error("Error fetching match details:", error);
@@ -95,6 +105,14 @@ const FallOfWicketsPage = () => {
 
     <div className="flex-1">
         {/* Bar Chart */}
+        <MatchHeader 
+                matchNo={header?.matchNo}
+                margin={header?.margin}
+                date={header?.date}
+                venue={header?.venue}
+                winning_team={header?.winning_team}
+                won_by={header?.won_by}
+                />
         {overAnalysis && (
             <RPO
                 runsPerOver={runsPerOver}

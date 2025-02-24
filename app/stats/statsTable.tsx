@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -9,6 +9,7 @@ import {
   TableRow,
   Paper,
   Button,
+  TableSortLabel,
 } from "@mui/material";
 import Loader from "../commonFunctions/loader";
 import Image from "next/image";
@@ -42,10 +43,8 @@ interface BowlingStats {
   Hat_Tricks: number;
   Matches: number;
   Runs: number;
-  Runs_Conceded_Most_Runs_Innings: number;
 }
 
-// Define type for API response
 interface StatsResponse {
   Batting_Stats: BattingStats[];
   Bowling_Stats: BowlingStats[];
@@ -55,37 +54,62 @@ const StatsTable: React.FC = () => {
   const [stats, setStats] = useState<StatsResponse | null>(null);
   const [view, setView] = useState<string>("Batting");
   const [loading, setLoading] = useState(false);
+  const [orderBy, setOrderBy] = useState<string>("Runs");
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("https://python-ipl-2024.onrender.com/get-stats");
+        const data: StatsResponse = await response.json();
+
+        data.Batting_Stats.sort((a, b) => b.Runs - a.Runs);
+        data.Bowling_Stats.sort((a, b) => b.Wickets - a.Wickets);
+
+        setStats(data);
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const handleBatBowlSwitch = (type: string) => {
-    setLoading(true); // Show the loader
+    setLoading(true);
     setTimeout(() => {
       setView(type);
-      setLoading(false); // Hide the loader after 2 seconds
+      setOrderBy(type === "Batting" ? "Runs" : "Wickets"); // Reset sorting column when switching
+      setOrder("desc");
+      setLoading(false);
     }, 1000);
   };
 
-    useEffect(() => {
-      const fetchStats = async () => {
-        try {
-          setLoading(true); // Show loader before fetching data
-          const response = await fetch("http://127.0.0.1:5000/get-stats");
-          const data: StatsResponse = await response.json();
-    
-          // Sort batting stats by Runs (highest first)
-          data.Batting_Stats.sort((a, b) => b.Runs - a.Runs);
-          // Sort bowling stats by Wickets (highest first)
-          data.Bowling_Stats.sort((a, b) => b.Wickets - a.Wickets);
-    
-          setStats(data);
-        } catch (error) {
-          console.error("Error fetching stats:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-    
-      fetchStats();
-    }, []);
+  const handleSort = (column: string) => {
+    const isAsc = orderBy === column && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(column);
+  };
+
+  const sortData = (data: (BattingStats | BowlingStats)[]) => {
+    return [...data].sort((a, b) => {
+      const aValue = a[orderBy as keyof (BattingStats | BowlingStats)];
+      const bValue = b[orderBy as keyof (BattingStats | BowlingStats)];
+
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return order === "asc" ? aValue - bValue : bValue - aValue;
+      }
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return order === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+      }
+
+      return 0;
+    });
+  };
 
   const battingColumns: (keyof BattingStats)[] = [
     "Striker",
@@ -118,64 +142,76 @@ const StatsTable: React.FC = () => {
   ];
 
   const displayedStats = view === "Batting" ? stats?.Batting_Stats : stats?.Bowling_Stats;
+  const sortedStats = displayedStats ? sortData(displayedStats) : [];
   const columns = view === "Batting" ? battingColumns : bowlingColumns;
 
   return (
     <div style={{ padding: "20px" }}>
-      {loading?(<Loader/>):
-      (<div>
-        <div className="flex justify-center mb-5">
-          <Button
-            variant={view === "Batting"? "contained" : "outlined"}
-            color="primary"
-            className="w-full"
-            onClick={() => handleBatBowlSwitch("Batting")}
-          >
-            Switch to Batting Stats
-          </Button>
-          <Button
-            variant={view === "Bowling"? "contained" : "outlined"}
-            color="primary"
-            className="w-full"
-            onClick={() => handleBatBowlSwitch("Bowling")}
-          >
-            Switch to Bowling Stats
-          </Button>
-        </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div>
+          <div className="flex justify-center mb-5">
+            <Button
+              variant={view === "Batting" ? "contained" : "outlined"}
+              color="primary"
+              className="w-full"
+              onClick={() => handleBatBowlSwitch("Batting")}
+            >
+              Switch to Batting Stats
+            </Button>
+            <Button
+              variant={view === "Bowling" ? "contained" : "outlined"}
+              color="primary"
+              className="w-full"
+              onClick={() => handleBatBowlSwitch("Bowling")}
+            >
+              Switch to Bowling Stats
+            </Button>
+          </div>
 
-      <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-        <Table>
-          <TableHead>
-            <TableRow className="bg-[#4EA5D9]">
-              {columns.map((col) => (
-                <TableCell key={col} style={{ fontWeight: "bold" }}>
-                  {col.toString().replace("_", " ")}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {displayedStats?.map((player: BattingStats | BowlingStats, index) => (
-            <TableRow key={index} >
-              {columns.map((col) => (
-                <TableCell key={col}>
-                  {col === "Team" ? 
-                  (<Image
-                  src={`/teamLogo/${player.Team}.png`}
-                  alt={player.Team || ""}
-                  width={20}
-                  height={20}
-                  className="rounded-lg"
-                  />) 
-                  : 
-                  (player[col as keyof (BattingStats | BowlingStats)])}</TableCell>
-              ))}
-            </TableRow>
-          ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-          </div>)}
+          <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+            <Table>
+              <TableHead>
+                <TableRow className="bg-[#4EA5D9]">
+                  {columns.map((col) => (
+                    <TableCell key={col} style={{ fontWeight: "bold" }}>
+                      <TableSortLabel
+                        active={orderBy === col}
+                        direction={orderBy === col ? order : "asc"}
+                        onClick={() => handleSort(col)}
+                      >
+                        {col.toString().replace("_", " ")}
+                      </TableSortLabel>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedStats.map((player, index) => (
+                  <TableRow key={index}>
+                    {columns.map((col) => (
+                      <TableCell key={col}>
+                        {col === "Team" ? (
+                          <Image
+                            src={`/teamLogo/${player.Team}.png`}
+                            alt={player.Team || ""}
+                            width={20}
+                            height={20}
+                            className="rounded-lg"
+                          />
+                        ) : (
+                          player[col as keyof (BattingStats | BowlingStats)]
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      )}
     </div>
   );
 };
